@@ -64,7 +64,9 @@ class CustomersController < ApplicationController
   end
 
   def send_multi_mail
-    ids << params[:ids]
+    min = params[:min].to_i
+    max = params[:max].to_i
+    ids = Customer.offset(min).limit(max).pluck(:id)
     EmailWorker.perform_async(ids)
   end
 

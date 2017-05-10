@@ -56,3 +56,5 @@ gem 'sidekiq'
 gem 'redis-namespace'
 
 gem 'kaminari'
+
+gem 'sidekiq_monitor'

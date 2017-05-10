@@ -21,4 +21,24 @@ $(document).on('turbolinks:load', function() {
 		  }
 		});
 	});
+
+	$('.multi-email').on('click', function() {
+		var min = $('#min').val();
+		var max = $('#max').val();
+		if(min == "") { 
+			min = 1; 
+		}
+		if(max == "") { 
+			max = 1; 
+		}
+		$.ajax({
+		  url: "/customers/send_multi_mail",
+		  method: 'POST',
+		  data: { min: min, max : max },
+		  cache: false,
+		  success: function(html){
+		    // $("#results").append(html);
+		  }
+		});
+	});
 });

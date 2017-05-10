@@ -12,6 +12,9 @@
 <h1>Customers</h1>
 <div class="col-sm-6">
   <%= link_to 'Email to all customers', "#", class: "btn btn-success all-email", data: { confirm: 'Are you sure?' } %>
+  <%= text_field_tag 'min', nil, class: "form-control", style: "display: inline-block; width: 70px;", placeholder: "Offset" %>
+  <%= text_field_tag 'max', nil, class: "form-control", style: "display: inline-block; width: 70px;", placeholder: "Limit" %>
+  <%= link_to 'Multi Email', "#", class: "btn btn-success multi-email", data: { confirm: 'Are you sure?' } %>
 </div>
 <div class="col-sm-6">
   <%= form_tag '/customers/import', multipart: true, style: "float: right;" do %>
@@ -22,6 +25,7 @@
 <table class="table table-hover">
   <thead>
     <tr>
+      <th>Id</th>
       <th>Name</th>
       <th>Email</th>
       <th>Status</th>
