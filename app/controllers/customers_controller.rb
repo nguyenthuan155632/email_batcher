@@ -64,15 +64,27 @@ class CustomersController < ApplicationController
   end
 
   def send_multi_mail
-    min = params[:min].to_i
-    max = params[:max].to_i
-    ids = Customer.offset(min).limit(max).pluck(:id)
-    EmailWorker.perform_async(ids)
+    if params[:max].present?
+      arr = Customer.offset(params[:min].to_i).limit(params[:max].to_i).pluck(:id)
+    else
+      arr = Customer.offset(params[:min].to_i).pluck(:id)
+    end
+    q = 8
+    sl = (arr.size % q != 0) ? (arr.size / q + 1) : (arr.size / q)
+    slice = arr.each_slice(sl).to_a
+    slice.each do |ids|
+      EmailWorker.perform_async(ids)
+    end
   end
 
   def send_all_mail
-    ids = Customer.all.pluck(:id)
-    EmailWorker.perform_async(ids)
+    arr = Customer.all.pluck(:id)
+    q = 8
+    sl = (arr.size % q != 0) ? (arr.size / q + 1) : (arr.size / q)
+    slice = arr.each_slice(sl).to_a
+    slice.each do |ids|
+      EmailWorker.perform_async(ids)
+    end
   end
 
   def import
